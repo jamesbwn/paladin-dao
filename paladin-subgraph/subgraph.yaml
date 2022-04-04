@@ -1,0 +1,67 @@
+specVersion: 0.0.4
+schema:
+  file: ./schema.graphql
+dataSources:
+  - kind: ethereum/contract
+    name: PalStaking
+    network: bsc
+    source:
+      address: "0x7B73d56c53059699003ac11aF4308f6bEb4877FF"
+      abi: PalStaking
+      startBlock: 15688756
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.6
+      language: wasm/assemblyscript
+      entities:
+        - PalStaking
+      abis:
+        - name: PalStaking
+          file: ./abis/PalStaking.json
+        - name: StakingHelper
+          file: ./abis/StakingHelper.json
+        - name: sPalERC20
+          file: ./abis/sPalERC20.json
+        - name: PalERC20
+          file: ./abis/PalERC20.json
+        - name: UniswapV2Pair
+          file: ./abis/UniswapV2Pair.json
+        - name: ERC20
+          file: ./abis/ERC20.json
+        - name: CirculatingSupply
+          file: ./abis/CirculatingSupply.json
+      blockHandlers:
+        - handler: handleBlock
+      file: ./src/PalStaking.ts
+  - kind: ethereum/contract
+    name: sPalERC20
+    network: bsc
+    source:
+      address: '0xFF55759cbceA32Ac28C3317E9115B5Ee8f9fA0FB'
+      abi: sPalERC20
+      startBlock: 15688756 
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.6
+      language: wasm/assemblyscript
+      entities:
+        - sPalERC20
+      abis:
+        - name: PalStaking
+          file: ./abis/PalStaking.json
+        - name: StakingHelper
+          file: ./abis/StakingHelper.json
+        - name: sPalERC20
+          file: ./abis/sPalERC20.json
+        - name: PalERC20
+          file: ./abis/PalERC20.json
+        - name: UniswapV2Pair
+          file: ./abis/UniswapV2Pair.json
+        - name: ERC20
+          file: ./abis/ERC20.json
+        - name: CirculatingSupply
+          file: ./abis/CirculatingSupply.json
+      eventHandlers:
+        - event: LogRebase(indexed uint256,uint256,uint256)
+          handler: rebaseFunction
+      file: ./src/sPalERC20V1.ts
